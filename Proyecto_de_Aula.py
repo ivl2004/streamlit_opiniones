@@ -174,7 +174,6 @@ if df is not None:
 
         st.markdown("---")
         st.subheader("Clasificación de sentimientos")
-        st.write("Selecciona el modelo HF y presiona 'Clasificar' para procesar las 20 opiniones.")
         if st.button("Clasificar opiniones (20)"):
             with st.spinner("Cargando modelo y clasificando..."):
                 pipe = get_hf_pipeline(model_choice)
@@ -278,6 +277,7 @@ if df is not None:
 
 
         
+
 
 
 #https://appopiniones-mqcekk8sjpymnxx39splef.streamlit.app/
