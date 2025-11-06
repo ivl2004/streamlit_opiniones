@@ -98,45 +98,18 @@ def get_hf_pipeline(model_name="tabularisai/multilingual-sentiment-analysis"):
 
 # App
 st.set_page_config(page_title="Análisis de Sentimientos - 20 Opiniones", layout="wide")
-st.title("Análisis de Sentimientos — App (Streamlit)")
-st.markdown("Sube un archivo .csv con al menos 20 opiniones (una columna de texto). Si tus columnas tienen encabezados, selecciona la columna que contiene las opiniones.")
+st.title("Análisis de Opiniones Domicilios de Restaurante")
+st.markdown("Sube un archivo .csv con al menos 20 opiniones")
 
 col1, col2 = st.columns([2,1])
 with col1:
     uploaded_file = st.file_uploader("Selecciona archivo CSV", type=["csv"]) 
-    sample_button = st.button("Cargar ejemplo (20 opiniones de prueba)")
+    
 with col2:
-    model_choice = st.selectbox("Modelo de clasificación (HuggingFace)", options=["tabularisai/multilingual-sentiment-analysis", "nlptown/bert-base-multilingual-uncased-sentiment"], index=0)
+    model_choice = "tabularisai/multilingual-sentiment-analysis"
     st.markdown("\n")
 
-if sample_button and uploaded_file is None:
-    # crear ejemplo
-    sample_texts = [
-        "Me encantó el producto, funciona muy bien y llegó a tiempo.",
-        "Muy mala atención al cliente, no lo recomiendo.",
-        "Es aceptable, cumple su función.",
-        "Excelente calidad y precio razonable.",
-        "No me gustó, esperaba más.",
-        "Servicio rápido y eficiente.",
-        "Producto defectuoso al llegar.",
-        "Volvería a comprar sin dudarlo.",
-        "El empaque estaba dañado.",
-        "Buena relación calidad-precio.",
-        "No responde a las expectativas.",
-        "Atención amable y soluciones rápidas.",
-        "Lo recomiendo 100%.",
-        "Tardó demasiado en llegar.",
-        "Fácil de usar y configurar.",
-        "La batería dura poco.",
-        "Diseño atractivo y funcional.",
-        "El manual es confuso.",
-        "Buena experiencia de compra.",
-        "Hubo un retraso en la entrega.",
-    ]
-    df = pd.DataFrame({"text": sample_texts})
-    st.success("Ejemplo cargado")
-else:
-    df = None
+df = None
 
 if uploaded_file is not None:
     try:
@@ -151,7 +124,7 @@ if df is not None:
     st.write("Vista previa de las primeras filas:")
     st.dataframe(df.head(10))
 
-    # Seleccionar columna de texto
+# Seleccionar columna de texto
     text_col = None
     possible_text_cols = [c for c in df.columns if df[c].dtype == object]
     if len(possible_text_cols) == 0:
@@ -159,7 +132,9 @@ if df is not None:
     else:
         text_col = st.selectbox("Selecciona la columna de texto", options=possible_text_cols, index=0)
 
+
     # Tomar sólo primeras 20 opiniones
+    
     if text_col:
         df['text_raw'] = df[text_col].astype(str)
         df = df.reset_index(drop=True)
@@ -168,7 +143,7 @@ if df is not None:
         df_20 = df['text_raw'].iloc[:20].copy()
 
         st.markdown("---")
-        st.subheader("Preprocesamiento")
+        st.subheader("Procesamiento")
         # limpieza y lematización
         df_proc = pd.DataFrame()
         df_proc['original'] = df_20
@@ -297,6 +272,12 @@ if df is not None:
                         else:
                             st.info(suggestions.get('NEUTRAL'))
 
-st.markdown("---")
-st.markdown("**Notas:** Esta app intenta usar modelos de HuggingFace via transformers. Asegúrate de tener torch y transformers instalados en tu entorno. Si trabajas con textos en español, se recomienda instalar spaCy y el modelo `es_core_news_sm` para una lematización más precisa.")
+     
 
+
+
+
+        
+
+
+#https://appopiniones-mqcekk8sjpymnxx39splef.streamlit.app/
